@@ -1,8 +1,10 @@
 /* SimpleProcess.java */
 /**
- ** Hecho por: Tu Nombre
- ** Carnet: ########
- ** Seccion: X
+** Hecho por: Michael Chang
+ ** Carnet: 24000414
+** Hecho por: Miguel Alvarado
+ ** Carnet: 24001670
+ ** Seccion: D
  **/
 package scheduler.processing;
 
@@ -16,9 +18,9 @@ public abstract class SimpleProcess {
 
     /**
      * Constructor.
-     * @param id id del proceso.
-     * @param totalTimeMs tiempo total en ms.
-     * @param shortType tipo abreviado.
+     * id: id del proceso.
+     * totalTimeMs: tiempo total en ms.
+     * shortType: tipo abreviado.
      */
     public SimpleProcess(int id, long totalTimeMs, String shortType) {
         this.id = id;
@@ -32,5 +34,5 @@ public abstract class SimpleProcess {
 
     public String toString() {
         return String.format("[%d,%dms,%s]", id, totalTimeMs, shortType);
-        }
+    }
 }

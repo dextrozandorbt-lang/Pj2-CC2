@@ -1,8 +1,10 @@
 /* ProcessScheduler.java */
 /**
- ** Hecho por: Tu Nombre
- ** Carnet: ########
- ** Seccion: X
+ ** Hecho por: Michael Chang
+ ** Carnet: 24000414
+  ** Hecho por: Miguel Alvarado
+ ** Carnet: 24001670
+ ** Seccion: D
  **/
 import scheduler.ProcessGenerator;
 import scheduler.Processor;
@@ -16,19 +18,21 @@ import scheduler.scheduling.policies.RRPolicy;
  * Clase principal que parsea argumentos y arranca la simulacion.
  */
 public class ProcessScheduler {
+
     /**
      * main.
-     * @param args argumentos de linea de comandos.
+     * Parametro args: argumentos de linea de comandos.
      */
     public static void main(String[] args) {
-        if (args.length < 6) {
-            System.out.println("Uso:");
-            System.out.println("java ProcessScheduler -fcfs rango arith io cond loop");
-            System.out.println("java ProcessScheduler -lcfs rango arith io cond loop");
-            System.out.println("java ProcessScheduler -pp   rango arith io cond loop");
-            System.out.println("java ProcessScheduler -rr   rango arith io cond loop quantum");
-            return;
-        }
+       if (args.length < 6) {
+    System.out.println("Uso:");
+    System.out.println("java ProcessScheduler -fcfs rango arith io cond loop");
+    System.out.println("java ProcessScheduler -lcfs rango arith io cond loop");
+    System.out.println("java ProcessScheduler -pp   rango arith io cond loop");
+    System.out.println("java ProcessScheduler -rr   rango arith io cond loop quantum");
+    System.exit(0);   // <-- ESTO sí detiene el programa completamente
+}
+
 
         String flag = args[0].toLowerCase();
         String rango = args[1];
@@ -37,8 +41,12 @@ public class ProcessScheduler {
         double cond = Double.parseDouble(args[4]);
         double loop = Double.parseDouble(args[5]);
         double quantum = 0;
+
         if (flag.equals("-rr")) {
-            if (args.length < 7) { System.out.println("RR requiere quantum"); return; }
+            if (args.length < 7) {
+                System.out.println("RR requiere quantum");
+                return;
+            }
             quantum = Double.parseDouble(args[6]);
         }
 
@@ -47,13 +55,22 @@ public class ProcessScheduler {
             case "-fcfs": policy = new FCFSPolicy(); break;
             case "-lcfs": policy = new LCFSPolicy(); break;
             case "-pp":   policy = new PriorityPolicy(); break;
-            case "-rr":   policy = new RRPolicy((long)(quantum*1000)); break;
-            default: System.out.println("Politica no reconocida"); return;
+            case "-rr":   policy = new RRPolicy((long)(quantum * 1000)); break;
+            default:
+                System.out.println("Politica no reconocida");
+                return;
         }
 
         // Arrancar generador y procesador
-        ProcessGenerator gen = new ProcessGenerator(rango, (long)(arith*1000), (long)(io*1000),
-                (long)(cond*1000), (long)(loop*1000), policy);
+        ProcessGenerator gen = new ProcessGenerator(
+                rango,
+                (long)(arith * 1000),
+                (long)(io * 1000),
+                (long)(cond * 1000),
+                (long)(loop * 1000),
+                policy
+        );
+
         Processor cpu = new Processor(policy);
 
         Thread genThread = new Thread(gen, "Generator");
@@ -74,12 +91,16 @@ public class ProcessScheduler {
                     break;
                 }
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             genThread.join();
             cpuThread.join();
-        } catch (InterruptedException e) { e.printStackTrace(); }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Impresion final
         System.out.println("=== FIN DE SIMULACION ===");

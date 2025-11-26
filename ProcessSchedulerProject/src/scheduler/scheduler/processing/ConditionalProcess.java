@@ -1,8 +1,10 @@
 /* ConditionalProcess.java */
 /**
- ** Hecho por: Tu Nombre
- ** Carnet: ########
- ** Seccion: X
+** Hecho por: Michael Chang
+ ** Carnet: 24000414
+** Hecho por: Miguel Alvarado
+ ** Carnet: 24001670
+ ** Seccion: D
  **/
 package scheduler.processing;
 
